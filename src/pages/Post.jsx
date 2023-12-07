@@ -1,25 +1,25 @@
 import { useAtom } from "jotai";
 import { postAtom } from "../state";
-import { useEffect, useState } from "react";
 import Comment from "../components/Comment";
 import { Loader } from "@mantine/core";
+import { useQuery } from "@tanstack/react-query";
 
 const renderable_images = ["i.redd.it"];
 
 function Post() {
-  const [currentPost, setCurrentPost] = useAtom(postAtom);
-  const [comments, setComments] = useState([]);
+  const [currentPost] = useAtom(postAtom);
+  const query = useQuery({
+    queryKey: ["postComments", currentPost.permalink],
+    queryFn: getPostComments,
+  });
 
-  useEffect(() => {
-    fetch(`https://www.reddit.com${currentPost.permalink}.json`)
-      .then((response) => response.json())
-      .then((data) => {
-        let sortedComments = data[1].data.children.sort(
-          (a, b) => b.data.ups - a.data.ups
-        );
-        setComments(sortedComments);
-      });
-  }, [currentPost]);
+  async function getPostComments() {
+    const response = await fetch(
+      `https://www.reddit.com${currentPost.permalink}.json`
+    );
+    const data = await response.json();
+    return data[1].data.children.sort((a, b) => b.data.ups - a.data.ups);
+  }
 
   return (
     <div className="grow overflow-auto flex flex-col">
@@ -44,13 +44,13 @@ function Post() {
         </div>
       </div>
       <div className="grow p-3 flex flex-col gap-2">
-        {comments.length === 0 ? (
+        {query.isLoading ? (
           <div className="flex justify-center">
             <Loader type="dots" />
           </div>
         ) : (
           <>
-            {comments.map((comment) => (
+            {query.data.map((comment) => (
               <Comment comment={comment.data} key={comment.data.name} />
             ))}
           </>
