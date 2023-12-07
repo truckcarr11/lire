@@ -10,5 +10,5 @@ export const appAtom = atomWithStorage("appData", {
 export const postAtom = atomWithStorage("currentPost", null);
 export const subscribedSubredditsAtom = atomWithStorage(
   "subscribedSubreddits",
-  []
+  ["all"]
 );

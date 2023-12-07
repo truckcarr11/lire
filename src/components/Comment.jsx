@@ -27,7 +27,7 @@ function Comment(props) {
           {props.comment.ups}
         </div>
       </div>
-      <div>{props.comment.body}</div>
+      <div className="break-words">{props.comment.body}</div>
       {props.comment.replies?.data?.children?.length !== undefined && (
         <>
           {repliesExpanded ? (
