@@ -1,23 +1,34 @@
-import {
-  Menu,
-  MoreHorizontal,
-  Newspaper,
-  Search,
-  Settings,
-} from "lucide-react";
 import { useEffect, useState } from "react";
-import { Drawer } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import { useAtom } from "jotai";
-import SubredditItem from "../components/SubredditItem";
-import SortMenu from "../components/SortMenu";
 import PostItem from "../components/PostItem";
 import { appAtom } from "../state";
+import { useQuery } from "@tanstack/react-query";
+import { Loader } from "@mantine/core";
 
 function Posts() {
   const [appData] = useAtom(appAtom);
   const [posts, setPosts] = useState([]);
   const [refreshTrigger, setRefreshTrigger] = useState("");
+
+  const query = useQuery({
+    queryKey: ["posts", appData.subreddit, appData.sort],
+    queryFn: getPosts,
+  });
+
+  async function getPosts() {
+    const response = await fetch(
+      `https://www.reddit.com/r/${appData.subreddit}/${appData.sort}/.json`
+    );
+    const data = await response.json();
+    let newPosts = data.data.children.map((child) => child.data);
+    let sortedPosts = [...newPosts].sort(
+      (a, b) => new Date(b.created * 1000) - new Date(a.created * 1000)
+    );
+    setRefreshTrigger(
+      appData.sort === "new" ? sortedPosts.at(-3).name : newPosts.at(-3).name
+    );
+    return appData.sort === "new" ? sortedPosts : newPosts;
+  }
 
   useEffect(() => {
     fetch(`https://www.reddit.com/r/${appData.subreddit}/${appData.sort}/.json`)
@@ -57,10 +68,18 @@ function Posts() {
       });
   }
 
+  if (query.isLoading) {
+    return (
+      <div className="grow max-h-[calc(100vh_-_92px)] overflow-auto flex justify-center">
+        <Loader type="dots" />
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="grow max-h-[calc(100vh_-_92px)] overflow-auto">
-        {posts.map((post) => (
+        {query.data.map((post) => (
           <PostItem
             post={post}
             key={post.name}
