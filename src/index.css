@@ -28,14 +28,6 @@ body {
     env(safe-area-inset-bottom, 20px) env(safe-area-inset-left, 20px);
 }
 
-.mantine-Drawer-overlay {
-  position: absolute !important;
-  left: 0 !important;
-  right: 0 !important;
-  top: 0 !important;
-  bottom: 0 !important;
-  z-index: 0 !important;
-  overflow: hidden !important;
-  padding: env(safe-area-inset-top, 20px) env(safe-area-inset-right, 20px)
-    env(safe-area-inset-bottom, 20px) env(safe-area-inset-left, 20px) !important;
+.mantine-Drawer-header {
+  padding-top: env(safe-area-inset-top, 40px) !important;
 }
