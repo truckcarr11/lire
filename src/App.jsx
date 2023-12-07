@@ -35,9 +35,9 @@ function App() {
           />
         ))}
       </Drawer>
-      <div className="h-screen flex flex-col">
-        <div className="border-b-[1px] border-[#24282f] w-full h-12 items-center flex justify-between px-2 shrink-0">
-          <div className="flex items-center h-full text-[#1f83fc]">
+      <div id="app" className="h-screen flex flex-col">
+        <div className="border-b-[1px] border-[#24282f] w-full h-11 items-center flex justify-between px-2 shrink-0">
+          <div className="flex items-center h-full text-[#1f83fc] w-[56px]">
             {currentPost !== null && appData.tab == TABS.POST ? (
               <ChevronLeft
                 color="#1f83fc"
@@ -55,7 +55,7 @@ function App() {
               />
             )}
           </div>
-          <div className="text-[#e7eaef]">
+          <div className="text-[#e7eaef] text-lg font-semibold">
             {appData.tab === TABS.SEARCH
               ? "Search"
               : appData.subreddit.charAt(0).toUpperCase() +

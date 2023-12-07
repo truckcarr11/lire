@@ -2,10 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body {
+  width: 100%;
+}
+
 body {
   overflow: hidden;
-  height: 100dvh !important;
-  max-height: 100dvh;
-  padding: env(safe-area-inset-top, 20px) env(safe-area-inset-right, 20px)
-    env(safe-area-inset-bottom, 20px) env(safe-area-inset-left, 20px);
+  margin: 0px;
+  padding: 0px;
+  position: fixed;
+  max-height: 100%;
+  overscroll-behavior-y: none;
+}
+
+#app {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 0;
+  overflow: hidden;
 }
