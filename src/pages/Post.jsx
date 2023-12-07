@@ -3,6 +3,8 @@ import { postAtom } from "../state";
 import { useEffect, useState } from "react";
 import Comment from "../components/Comment";
 
+const renderable_images = ["i.redd.it"];
+
 function Post() {
   const [currentPost, setCurrentPost] = useAtom(postAtom);
   const [comments, setComments] = useState([]);
@@ -14,17 +16,16 @@ function Post() {
         let sortedComments = data[1].data.children.sort(
           (a, b) => b.data.ups - a.data.ups
         );
-        console.log(sortedComments);
         setComments(sortedComments);
       });
   }, [currentPost]);
 
   return (
     <div className="overflow-auto flex flex-col">
-      {!currentPost.url.includes(currentPost.permalink) && (
+      {renderable_images.some((str) => currentPost.url.includes(str)) && (
         <img src={currentPost.url} className="w-screen h-auto" />
       )}
-      <div className="mt-4 px-3 pb-4 border-b-[1px] border-[#24282f] flex-initial">
+      <div className="px-3 mt-2 pb-4 border-b-[1px] border-[#24282f] flex-initial">
         {currentPost.title}
         {currentPost.link_flair_text && (
           <span className="rounded-xl bg-neutral-700 w-fit p-1 text-sm ml-2">
@@ -37,7 +38,7 @@ function Post() {
         <div className="mt-1 text-[#70737a]">u/{currentPost.author}</div>
       </div>
 
-      <div className="grow p-3 flex flex-col">
+      <div className="grow p-3 flex flex-col gap-2">
         {comments.map((comment) => (
           <Comment comment={comment.data} key={comment.data.name} />
         ))}

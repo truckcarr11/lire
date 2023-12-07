@@ -17,7 +17,7 @@ const comment_color_rainbow = [
 function Comment(props) {
   const [repliesExpanded, setRepliesExpanded] = useState(false);
   const borderColor = comment_color_rainbow[props.depth ? props.depth : 0];
-  console.log(props.depth);
+
   return (
     <div className={`${borderColor ? "border-l-2 pl-4 " + borderColor : ""}`}>
       <div className="flex justify-between">
