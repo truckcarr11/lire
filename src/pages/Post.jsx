@@ -2,6 +2,7 @@ import { useAtom } from "jotai";
 import { postAtom } from "../state";
 import { useEffect, useState } from "react";
 import Comment from "../components/Comment";
+import { Loader } from "@mantine/core";
 
 const renderable_images = ["i.redd.it"];
 
@@ -21,7 +22,7 @@ function Post() {
   }, [currentPost]);
 
   return (
-    <div className="overflow-auto flex flex-col">
+    <div className="grow overflow-auto flex flex-col">
       {renderable_images.some((str) => currentPost.url.includes(str)) && (
         <img src={currentPost.url} className="w-screen h-auto" />
       )}
@@ -42,11 +43,18 @@ function Post() {
           <span className="font-semibold">u/{currentPost.author}</span>
         </div>
       </div>
-
       <div className="grow p-3 flex flex-col gap-2">
-        {comments.map((comment) => (
-          <Comment comment={comment.data} key={comment.data.name} />
-        ))}
+        {comments.length === 0 ? (
+          <div className="flex justify-center">
+            <Loader type="dots" />
+          </div>
+        ) : (
+          <>
+            {comments.map((comment) => (
+              <Comment comment={comment.data} key={comment.data.name} />
+            ))}
+          </>
+        )}
       </div>
     </div>
   );

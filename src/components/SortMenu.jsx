@@ -19,7 +19,7 @@ function SortMenu() {
   return (
     <Menu shadow="md" width={200}>
       <Menu.Target>
-        <div>
+        <div className="cursor-pointer w-11 h-11 flex items-center justify-center">
           {appData.sort === "hot" && <Flame color="#1f83fc" />}
           {appData.sort === "new" && <BadgePlus color="#1f83fc" />}
           {appData.sort === "top" && <ArrowBigUpDash color="#1f83fc" />}

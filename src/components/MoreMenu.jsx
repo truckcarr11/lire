@@ -20,7 +20,7 @@ function MoreMenu() {
   return (
     <Menu shadow="md" width={200}>
       <Menu.Target>
-        <div>
+        <div className="cursor-pointer w-11 h-11 flex items-center justify-center">
           <MoreHorizontal color="#1f83fc" />
         </div>
       </Menu.Target>

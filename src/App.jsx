@@ -37,22 +37,21 @@ function App() {
       </Drawer>
       <div id="app" className="h-screen flex flex-col">
         <div className="border-b-[1px] border-[#24282f] w-full h-11 items-center flex justify-between px-3 shrink-0">
-          <div className="flex items-center h-full text-[#1f83fc] w-[56px]">
+          <div
+            className="flex items-center h-full text-[#1f83fc] w-[88px]"
+            onClick={(e) => {
+              if (currentPost !== null && appData.tab == TABS.POST) {
+                setCurrentPost(null);
+              } else {
+                open();
+                e.stopPropagation();
+              }
+            }}
+          >
             {currentPost !== null && appData.tab == TABS.POST ? (
-              <ChevronLeft
-                color="#1f83fc"
-                onClick={() => {
-                  setCurrentPost(null);
-                }}
-              />
+              <ChevronLeft color="#1f83fc" />
             ) : (
-              <Menu
-                color="#1f83fc"
-                onClick={(e) => {
-                  open();
-                  e.stopPropagation();
-                }}
-              />
+              <Menu color="#1f83fc" />
             )}
           </div>
           <div className="text-[#e7eaef] text-lg font-semibold">
@@ -63,7 +62,7 @@ function App() {
               : appData.subreddit.charAt(0).toUpperCase() +
                 appData.subreddit.slice(1)}
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center">
             <SortMenu />
             <MoreMenu />
           </div>
@@ -73,22 +72,28 @@ function App() {
         {appData.tab === TABS.SEARCH && <SearchPage />}
         {appData.tab === TABS.SETTINGS && <Settings />}
         <div className="border-t-[1px] border-[#24282f] w-full flex justify-around h-12 items-center shrink-0 grow-0">
-          <div className="cursor-pointer">
+          <div
+            className="cursor-pointer w-12 h-12 flex items-center justify-center"
+            onClick={() => setAppData({ ...appData, tab: TABS.POST })}
+          >
             <Newspaper
               color={appData.tab === TABS.POST ? "#1f83fc" : "#727578"}
-              onClick={() => setAppData({ ...appData, tab: TABS.POST })}
             />
           </div>
-          <div className="cursor-pointer">
+          <div
+            className="cursor-pointer w-12 h-12 flex items-center justify-center"
+            onClick={() => setAppData({ ...appData, tab: TABS.SEARCH })}
+          >
             <Search
               color={appData.tab === TABS.SEARCH ? "#1f83fc" : "#727578"}
-              onClick={() => setAppData({ ...appData, tab: TABS.SEARCH })}
             />
           </div>
-          <div className="cursor-pointer">
+          <div
+            className="cursor-pointer w-12 h-12 flex items-center justify-center"
+            onClick={() => setAppData({ ...appData, tab: TABS.SETTINGS })}
+          >
             <SettingsIcon
               color={appData.tab === TABS.SETTINGS ? "#1f83fc" : "#727578"}
-              onClick={() => setAppData({ ...appData, tab: TABS.SETTINGS })}
             />
           </div>
         </div>
