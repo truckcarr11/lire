@@ -1,0 +1,23 @@
+{
+  "name": "Lire",
+  "short_name": "Lire",
+  "description": "A simple reddit Viewer",
+  "theme_color": "#333333",
+  "start_url": "/",
+  "display": "standalone",
+  "categories": ["social", "news"],
+  "icons": [
+    {
+      "src": "/src/assets/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/src/assets/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

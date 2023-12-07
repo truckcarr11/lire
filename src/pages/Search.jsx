@@ -24,7 +24,7 @@ function Search() {
   }
 
   return (
-    <div className="grow p-2 max-h-[calc(100vh_-_112px)] overflow-auto">
+    <div className="grow p-2 max-h-[calc(100vh_-_96px)] overflow-auto">
       <TextInput placeholder="Enter a subreddit" onChange={debouncedOnChange} />
       <div className="flex flex-col gap-3 mt-4">
         {searchResults.map((result) => (

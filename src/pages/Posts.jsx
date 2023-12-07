@@ -59,7 +59,7 @@ function Posts() {
 
   return (
     <>
-      <div className="grow max-h-[calc(100vh_-_112px)] overflow-auto">
+      <div className="grow max-h-[calc(100vh_-_96px)] overflow-auto">
         {posts.map((post) => (
           <PostItem
             post={post}

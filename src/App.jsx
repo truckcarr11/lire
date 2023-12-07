@@ -37,7 +37,7 @@ function App() {
         ))}
       </Drawer>
       <div className="h-screen flex flex-col">
-        <div className="border-b-[1px] border-[#24282f] w-full h-14 items-center flex justify-between px-2 shrink-0">
+        <div className="border-b-[1px] border-[#24282f] w-full h-12 items-center flex justify-between px-2 shrink-0">
           <div className="flex items-center h-full text-[#1f83fc]">
             {currentPost !== null && appData.tab == TABS.POST ? (
               <ChevronLeft
@@ -70,7 +70,7 @@ function App() {
         {currentPost === null && appData.tab === TABS.POST && <Posts />}
         {currentPost !== null && appData.tab === TABS.POST && <Post />}
         {appData.tab === TABS.SEARCH && <SearchPage />}
-        <div className="border-t-[1px] border-[#24282f] w-full flex justify-around h-14 items-center shrink-0 grow-0">
+        <div className="border-t-[1px] border-[#24282f] w-full flex justify-around h-12 items-center shrink-0 grow-0">
           <div className="cursor-pointer">
             <Newspaper
               color={appData.tab === TABS.POST ? "#1f83fc" : "#727578"}
