@@ -1,12 +1,10 @@
 import {
   ChevronLeft,
   Menu,
-  MoreHorizontal,
   Newspaper,
   Search,
-  Settings,
+  SettingsIcon,
 } from "lucide-react";
-import { useState } from "react";
 import SubredditItem from "./components/SubredditItem";
 import { Drawer } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -18,6 +16,7 @@ import Post from "./pages/Post";
 import { TABS } from "./utils/constants";
 import SearchPage from "./pages/Search";
 import MoreMenu from "./components/MoreMenu";
+import Settings from "./pages/SettingsPage";
 
 function App() {
   const [appData, setAppData] = useAtom(appAtom);
@@ -70,6 +69,7 @@ function App() {
         {currentPost === null && appData.tab === TABS.POST && <Posts />}
         {currentPost !== null && appData.tab === TABS.POST && <Post />}
         {appData.tab === TABS.SEARCH && <SearchPage />}
+        {appData.tab === TABS.SETTINGS && <Settings />}
         <div className="border-t-[1px] border-[#24282f] w-full flex justify-around h-12 items-center shrink-0 grow-0">
           <div className="cursor-pointer">
             <Newspaper
@@ -84,7 +84,7 @@ function App() {
             />
           </div>
           <div className="cursor-pointer">
-            <Settings
+            <SettingsIcon
               color={appData.tab === TABS.SETTINGS ? "#1f83fc" : "#727578"}
               onClick={() => setAppData({ ...appData, tab: TABS.SETTINGS })}
             />

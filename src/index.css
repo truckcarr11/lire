@@ -4,6 +4,6 @@
 
 body {
   overflow: hidden;
-  height: 100svh !important;
-  max-height: 100svh;
+  height: 100dvh !important;
+  max-height: 100dvh;
 }
