@@ -1,5 +1,6 @@
 import { ArrowUp, ChevronDown } from "lucide-react";
 import { useState } from "react";
+import Markdown from "react-markdown";
 
 const comment_color_rainbow = [
   "",
@@ -18,6 +19,12 @@ function Comment(props) {
   const [repliesExpanded, setRepliesExpanded] = useState(false);
   const borderColor = comment_color_rainbow[props.depth ? props.depth : 0];
 
+  const decodeEntities = (html) => {
+    const txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+  };
+
   return (
     <div className={`${borderColor ? "border-l-2 pl-4 " + borderColor : ""}`}>
       <div className="flex justify-between">
@@ -27,7 +34,7 @@ function Comment(props) {
           {props.comment.ups}
         </div>
       </div>
-      <div className="break-words">{props.comment.body}</div>
+      <Markdown children={decodeEntities(props.comment.body)} />
       {props.comment.replies?.data?.children?.length !== undefined && (
         <>
           {repliesExpanded ? (

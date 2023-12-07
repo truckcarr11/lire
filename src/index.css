@@ -31,3 +31,10 @@ body {
 .mantine-Drawer-header {
   padding-top: env(safe-area-inset-top, 40px) !important;
 }
+
+blockquote {
+  color: #666;
+  margin-left: 10px;
+  padding-left: 8px;
+  border-left: 1px #666 solid;
+}
