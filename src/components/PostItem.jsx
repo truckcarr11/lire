@@ -42,7 +42,9 @@ function PostItem(props) {
         </div>
         <div>
           <div className="text-[#e7eaef] flex gap-2 items-center">
-            {props.post.stickied && <Pin size={20} color="green" />}
+            {props.post.stickied && (
+              <Pin size={20} color="green" className="shrink-0" />
+            )}
             {props.post.title}
           </div>
           <div className="flex items-center gap-x-3 text-[#70737a] flex-wrap">
