@@ -3,3 +3,5 @@ export const TABS = {
   SEARCH: "SEARCH",
   SETTINGS: "SETTINGS",
 };
+
+export const HEADER_NAV_PXS = 80;
