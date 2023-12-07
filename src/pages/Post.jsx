@@ -13,9 +13,12 @@ function Post() {
     queryKey: ["postComments", currentPost.permalink],
     queryFn: getPostComments,
   });
-  const carouselImages = Object.values(currentPost.media_metadata).map(
-    (media) => `https://i.redd.it/${media.id}.${media.m.split("/").at(-1)}`
-  );
+
+  function parseGalleryUrls() {
+    return Object.values(currentPost.media_metadata).map(
+      (media) => `https://i.redd.it/${media.id}.${media.m.split("/").at(-1)}`
+    );
+  }
 
   async function getPostComments() {
     const response = await fetch(
@@ -33,7 +36,7 @@ function Post() {
         )}
       {currentPost.is_gallery && (
         <Carousel withIndicators>
-          {carouselImages.map((url) => (
+          {parseGalleryUrls().map((url) => (
             <Carousel.Slide key={url}>
               <Image src={url} />
             </Carousel.Slide>
