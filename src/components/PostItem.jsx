@@ -31,7 +31,7 @@ function PostItem(props) {
 
   return (
     <div
-      className="flex justify-between border-b-[1px] border-[#24282f] p-2 cursor-pointer pr-3 gap-2"
+      className="flex justify-between border-b-[1px] border-[#24282f] p-2 cursor-pointer px-3 gap-2"
       ref={ref}
       onClick={onClick}
     >

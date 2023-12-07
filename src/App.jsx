@@ -36,7 +36,7 @@ function App() {
         ))}
       </Drawer>
       <div id="app" className="h-screen flex flex-col">
-        <div className="border-b-[1px] border-[#24282f] w-full h-11 items-center flex justify-between px-2 shrink-0">
+        <div className="border-b-[1px] border-[#24282f] w-full h-11 items-center flex justify-between px-3 shrink-0">
           <div className="flex items-center h-full text-[#1f83fc] w-[56px]">
             {currentPost !== null && appData.tab == TABS.POST ? (
               <ChevronLeft
