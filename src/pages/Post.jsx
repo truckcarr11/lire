@@ -1,8 +1,9 @@
 import { useAtom } from "jotai";
 import { postAtom } from "../state";
 import Comment from "../components/Comment";
-import { Loader } from "@mantine/core";
+import { Image, Loader } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
+import { Carousel } from "@mantine/carousel";
 
 const renderable_images = ["i.redd.it"];
 
@@ -12,6 +13,9 @@ function Post() {
     queryKey: ["postComments", currentPost.permalink],
     queryFn: getPostComments,
   });
+  const carouselImages = Object.values(currentPost.media_metadata).map(
+    (media) => `https://i.redd.it/${media.id}.${media.m.split("/").at(-1)}`
+  );
 
   async function getPostComments() {
     const response = await fetch(
@@ -23,8 +27,18 @@ function Post() {
 
   return (
     <div className="grow overflow-auto flex flex-col">
-      {renderable_images.some((str) => currentPost.url.includes(str)) && (
-        <img src={currentPost.url} className="w-screen h-auto" />
+      {renderable_images.some((str) => currentPost.url.includes(str)) &&
+        !currentPost.is_gallery && (
+          <img src={currentPost.url} className="w-screen h-auto" />
+        )}
+      {currentPost.is_gallery && (
+        <Carousel withIndicators>
+          {carouselImages.map((url) => (
+            <Carousel.Slide key={url}>
+              <Image src={url} />
+            </Carousel.Slide>
+          ))}
+        </Carousel>
       )}
       <div className="px-3 mt-2 pb-4 border-b-[1px] border-[#24282f] flex-initial">
         <span className="text-white">{currentPost.title}</span>

@@ -34,7 +34,10 @@ function Comment(props) {
           {props.comment.ups}
         </div>
       </div>
-      <Markdown children={decodeEntities(props.comment.body)} />
+      <Markdown
+        children={decodeEntities(props.comment.body)}
+        className="break-words"
+      />
       {props.comment.replies?.data?.children?.length !== undefined && (
         <>
           {repliesExpanded ? (
