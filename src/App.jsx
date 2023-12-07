@@ -29,7 +29,11 @@ function App() {
     <>
       <Drawer opened={opened} onClose={close} title="Subreddits">
         {subscribedSubreddits.map((subreddit) => (
-          <SubredditItem subredditName={subreddit} onClick={close} />
+          <SubredditItem
+            subredditName={subreddit}
+            onClick={close}
+            key={subreddit}
+          />
         ))}
       </Drawer>
       <div className="h-screen flex flex-col">

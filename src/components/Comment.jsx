@@ -42,7 +42,7 @@ function Comment(props) {
             </div>
           ) : (
             <div
-              className="p-1 border-l-2 flex justify-between"
+              className="p-1 border-l-2 flex justify-between mb-2"
               onClick={() => setRepliesExpanded(true)}
             >
               <div>{props.comment.replies?.data?.children.length} more</div>
