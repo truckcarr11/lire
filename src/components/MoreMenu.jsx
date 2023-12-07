@@ -1,18 +1,12 @@
 import { Menu } from "@mantine/core";
 import { useAtom } from "jotai";
-import {
-  ArrowBigUpDash,
-  BadgePlus,
-  Flame,
-  MoreHorizontal,
-  Plus,
-  Sword,
-  TrendingUp,
-} from "lucide-react";
-import { appAtom, subscribedSubredditsAtom } from "../state";
+import { MoreHorizontal, Plus } from "lucide-react";
+import { appAtom, postAtom, subscribedSubredditsAtom } from "../state";
+import { TABS } from "../utils/constants";
 
 function MoreMenu() {
-  const [appData, setAppData] = useAtom(appAtom);
+  const [appData] = useAtom(appAtom);
+  const [currentPost] = useAtom(postAtom);
   const [subscribedSubreddits, setSubscribedSubreddits] = useAtom(
     subscribedSubredditsAtom
   );
@@ -33,9 +27,11 @@ function MoreMenu() {
 
       <Menu.Dropdown>
         <Menu.Label>More</Menu.Label>
-        <Menu.Item leftSection={<Plus size={18} />} onClick={onSubscribe}>
-          Subscribe
-        </Menu.Item>
+        {currentPost === null && appData.tab === TABS.POST && (
+          <Menu.Item leftSection={<Plus size={18} />} onClick={onSubscribe}>
+            Subscribe
+          </Menu.Item>
+        )}
       </Menu.Dropdown>
     </Menu>
   );

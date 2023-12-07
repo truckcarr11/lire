@@ -58,6 +58,8 @@ function App() {
           <div className="text-[#e7eaef] text-lg font-semibold">
             {appData.tab === TABS.SEARCH
               ? "Search"
+              : currentPost !== null && appData.tab === TABS.POST
+              ? currentPost.subreddit
               : appData.subreddit.charAt(0).toUpperCase() +
                 appData.subreddit.slice(1)}
           </div>
