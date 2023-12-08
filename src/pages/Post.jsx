@@ -44,7 +44,12 @@ function Post() {
         </Carousel>
       )}
       <div className="px-3 mt-2 pb-4 border-b-[1px] border-[#24282f] flex-initial">
-        <span className="text-white">{currentPost.title}</span>
+        <span
+          className="text-white"
+          onClick={() => window.open(currentPost.url)}
+        >
+          {currentPost.title}
+        </span>
         {currentPost.link_flair_text && (
           <span className="rounded-xl bg-neutral-700 w-fit p-1 text-sm ml-2">
             {currentPost.link_flair_text}

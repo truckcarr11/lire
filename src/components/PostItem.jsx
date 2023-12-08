@@ -68,19 +68,27 @@ function PostItem(props) {
           </div>
         </div>
       </div>
-      {props.post.thumbnail.includes("thumbs") ? (
-        <img
-          className="w-14 h-14 rounded"
-          src={props.post.thumbnail}
-          alt="alt"
-        />
-      ) : (
-        <GanttChart
-          size={56}
-          className="rounded bg-[#212428] shrink-0"
-          color="#505458"
-        />
-      )}
+      <div
+        className="rounded shrink-0"
+        onClick={(e) => {
+          e.stopPropagation();
+          window.open(props.post.url);
+        }}
+      >
+        {props.post.thumbnail.includes("thumbs") ? (
+          <img
+            className="w-14 h-14 rounded"
+            src={props.post.thumbnail}
+            alt="alt"
+          />
+        ) : (
+          <GanttChart
+            size={56}
+            className="bg-[#212428] rounded"
+            color="#505458"
+          />
+        )}
+      </div>
     </div>
   );
 }
