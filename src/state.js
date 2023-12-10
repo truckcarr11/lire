@@ -12,3 +12,4 @@ export const subscribedSubredditsAtom = atomWithStorage(
   "subscribedSubreddits",
   ["all"]
 );
+export const scrollAtom = atomWithStorage("scrollPos", 0);

@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAtom } from "jotai";
 import PostItem from "../components/PostItem";
-import { appAtom } from "../state";
+import { appAtom, scrollAtom } from "../state";
 import { useQuery } from "@tanstack/react-query";
 import { Loader } from "@mantine/core";
 
 function Posts() {
+  const postContainerRef = useRef();
   const [appData] = useAtom(appAtom);
+  const [scrollPosition, setScrollPosition] = useAtom(scrollAtom);
   const [posts, setPosts] = useState([]);
   const [refreshTrigger, setRefreshTrigger] = useState("");
 
@@ -31,6 +33,20 @@ function Posts() {
   }
 
   useEffect(() => {
+    if (postContainerRef.current) {
+      postContainerRef.current.scrollTop = scrollPosition;
+    }
+    postContainerRef.current.addEventListener("scroll", upDateScrollPosition);
+
+    return () => {
+      postContainerRef.current?.removeEventListener(
+        "scroll",
+        upDateScrollPosition
+      );
+    };
+  }, []);
+
+  useEffect(() => {
     fetch(`https://www.reddit.com/r/${appData.subreddit}/${appData.sort}/.json`)
       .then((response) => response.json())
       .then((data) => {
@@ -48,24 +64,30 @@ function Posts() {
   }, [appData.subreddit, appData.sort]);
 
   function refresh() {
-    let after = posts.at(-1).name;
-    fetch(
-      `https://www.reddit.com/r/${appData.subreddit}/${appData.sort}/.json?after=${after}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        let newPosts = data.data.children.map((child) => child.data);
-        let combinedPosts = posts.concat(newPosts);
-        let sortedPosts = combinedPosts.sort(
-          (a, b) => new Date(b.created * 1000) - new Date(a.created * 1000)
-        );
-        setRefreshTrigger(
-          appData.sort === "new"
-            ? sortedPosts.at(-3).name
-            : combinedPosts.at(-3).name
-        );
-        setPosts(appData.sort === "new" ? sortedPosts : combinedPosts);
-      });
+    if (posts.length !== 0) {
+      let after = posts.at(-1).name;
+      fetch(
+        `https://www.reddit.com/r/${appData.subreddit}/${appData.sort}/.json?after=${after}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          let newPosts = data.data.children.map((child) => child.data);
+          let combinedPosts = posts.concat(newPosts);
+          let sortedPosts = combinedPosts.sort(
+            (a, b) => new Date(b.created * 1000) - new Date(a.created * 1000)
+          );
+          setRefreshTrigger(
+            appData.sort === "new"
+              ? sortedPosts.at(-3).name
+              : combinedPosts.at(-3).name
+          );
+          setPosts(appData.sort === "new" ? sortedPosts : combinedPosts);
+        });
+    }
+  }
+
+  function upDateScrollPosition() {
+    setScrollPosition(postContainerRef.current?.scrollTop ?? scrollPosition);
   }
 
   if (query.isLoading) {
@@ -78,7 +100,10 @@ function Posts() {
 
   return (
     <>
-      <div className="grow max-h-[calc(100vh_-_92px)] overflow-auto">
+      <div
+        ref={postContainerRef}
+        className="grow max-h-[calc(100vh_-_92px)] overflow-auto"
+      >
         {query.data.map((post) => (
           <PostItem
             post={post}
