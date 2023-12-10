@@ -27,7 +27,7 @@ function App() {
   return (
     <>
       <Drawer opened={opened} onClose={close} title="Subreddits">
-        {subscribedSubreddits.map((subreddit) => (
+        {["all", "frontpage"].concat(subscribedSubreddits).map((subreddit) => (
           <SubredditItem
             subredditName={subreddit}
             onClick={close}

@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { useAtom } from "jotai";
 import PostItem from "../components/PostItem";
-import { appAtom, scrollAtom } from "../state";
+import { appAtom, scrollAtom, subscribedSubredditsAtom } from "../state";
 import { useQuery } from "@tanstack/react-query";
 import { Loader } from "@mantine/core";
 
 function Posts() {
   const postContainerRef = useRef();
   const [appData] = useAtom(appAtom);
+  const [subscribedSubreddits] = useAtom(subscribedSubredditsAtom);
   const [scrollPosition, setScrollPosition] = useAtom(scrollAtom);
   const [posts, setPosts] = useState([]);
   const [refreshTrigger, setRefreshTrigger] = useState("");
@@ -18,8 +19,16 @@ function Posts() {
   });
 
   async function getPosts() {
+    let subredditSearch =
+      appData.subreddit === "frontpage"
+        ? subscribedSubreddits
+            .filter(
+              (subreddit) => subreddit !== "all" && subreddit !== "frontpage"
+            )
+            .join("+")
+        : appData.subreddit;
     const response = await fetch(
-      `https://www.reddit.com/r/${appData.subreddit}/${appData.sort}/.json`
+      `https://www.reddit.com/r/${subredditSearch}/${appData.sort}/.json`
     );
     const data = await response.json();
     let newPosts = data.data.children.map((child) => child.data);
@@ -36,7 +45,7 @@ function Posts() {
     if (postContainerRef.current) {
       postContainerRef.current.scrollTop = scrollPosition;
     }
-    postContainerRef.current.addEventListener("scroll", upDateScrollPosition);
+    postContainerRef.current?.addEventListener("scroll", upDateScrollPosition);
 
     return () => {
       postContainerRef.current?.removeEventListener(
@@ -47,7 +56,15 @@ function Posts() {
   }, []);
 
   useEffect(() => {
-    fetch(`https://www.reddit.com/r/${appData.subreddit}/${appData.sort}/.json`)
+    let subredditSearch =
+      appData.subreddit === "frontpage"
+        ? subscribedSubreddits
+            .filter(
+              (subreddit) => subreddit !== "all" && subreddit !== "frontpage"
+            )
+            .join("+")
+        : appData.subreddit;
+    fetch(`https://www.reddit.com/r/${subredditSearch}/${appData.sort}/.json`)
       .then((response) => response.json())
       .then((data) => {
         let newPosts = data.data.children.map((child) => child.data);
