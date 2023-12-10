@@ -1,6 +1,7 @@
 import { ArrowUp, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import Markdown from "react-markdown";
+import { decodeEntities } from "../utils/helpers";
 
 const comment_color_rainbow = [
   "",
@@ -18,12 +19,6 @@ const comment_color_rainbow = [
 function Comment(props) {
   const [repliesExpanded, setRepliesExpanded] = useState(false);
   const borderColor = comment_color_rainbow[props.depth ? props.depth : 0];
-
-  const decodeEntities = (html) => {
-    const txt = document.createElement("textarea");
-    txt.innerHTML = html;
-    return txt.value;
-  };
 
   return (
     <div className={`${borderColor ? "border-l-2 pl-4 " + borderColor : ""}`}>

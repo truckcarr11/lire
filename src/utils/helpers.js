@@ -9,3 +9,9 @@ export async function unloadServiceWorkerAndRefresh() {
     window.location.href = "/";
   }
 }
+
+export function decodeEntities(html) {
+  const txt = document.createElement("textarea");
+  txt.innerHTML = html;
+  return txt.value;
+}

@@ -6,6 +6,9 @@ import { useQuery } from "@tanstack/react-query";
 import { Carousel } from "@mantine/carousel";
 import { useRef } from "react";
 import { usePullToRefresh } from "../utils/hooks";
+import { decodeEntities } from "../utils/helpers";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const renderable_images = ["i.redd.it"];
 
@@ -72,7 +75,11 @@ function Post() {
           </span>
         )}
         {currentPost.selftext !== "" && (
-          <div className="mt-2">{currentPost.selftext}</div>
+          <Markdown
+            remarkPlugins={[remarkGfm]}
+            children={decodeEntities(currentPost.selftext)}
+            className="break-words mt-2"
+          />
         )}
         <div className="text-[#70737a]">
           <span className="">in </span>
