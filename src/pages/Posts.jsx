@@ -5,7 +5,6 @@ import { appAtom, scrollAtom, subscribedSubredditsAtom } from "../state";
 import { useQuery } from "@tanstack/react-query";
 import { Loader } from "@mantine/core";
 import { usePullToRefresh } from "../utils/hooks";
-import { ArrowDown } from "lucide-react";
 
 function Posts() {
   const postContainerRef = useRef();
@@ -119,9 +118,6 @@ function Posts() {
 
   return (
     <>
-      <div className="absolute w-full flex justify-center top-16 invisible refresh-arrow">
-        <ArrowDown />
-      </div>
       <div
         ref={postContainerRef}
         className="grow max-h-[calc(100vh_-_92px)] overflow-auto"

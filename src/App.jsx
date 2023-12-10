@@ -1,4 +1,5 @@
 import {
+  ArrowDown,
   ChevronLeft,
   Menu,
   Newspaper,
@@ -36,6 +37,9 @@ function App() {
         ))}
       </Drawer>
       <div id="app" className="h-screen flex flex-col">
+        <div className="absolute w-full flex justify-center top-16 invisible refresh-arrow">
+          <ArrowDown />
+        </div>
         <div className="border-b-[1px] border-[#24282f] w-full h-11 items-center flex justify-between px-3 shrink-0">
           <div
             className="flex items-center h-full text-[#1f83fc] w-[88px]"
