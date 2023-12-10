@@ -38,3 +38,15 @@ blockquote {
   padding-left: 8px;
   border-left: 1px #666 solid;
 }
+
+.refresh-arrow {
+  transition: transform 0.2s ease-in-out;
+}
+
+.refresh-arrow svg {
+  transition: transform 0.2s ease-in-out;
+}
+
+.refresh-arrow.flip svg {
+  transform: rotate(180deg);
+}

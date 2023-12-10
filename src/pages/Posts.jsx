@@ -4,6 +4,8 @@ import PostItem from "../components/PostItem";
 import { appAtom, scrollAtom, subscribedSubredditsAtom } from "../state";
 import { useQuery } from "@tanstack/react-query";
 import { Loader } from "@mantine/core";
+import { usePullToRefresh } from "../utils/hooks";
+import { ArrowDown } from "lucide-react";
 
 function Posts() {
   const postContainerRef = useRef();
@@ -12,11 +14,11 @@ function Posts() {
   const [scrollPosition, setScrollPosition] = useAtom(scrollAtom);
   const [posts, setPosts] = useState([]);
   const [refreshTrigger, setRefreshTrigger] = useState("");
-
   const query = useQuery({
     queryKey: ["posts", appData.subreddit, appData.sort],
     queryFn: getPosts,
   });
+  const _ = usePullToRefresh(postContainerRef, query.refetch);
 
   async function getPosts() {
     let subredditSearch =
@@ -117,6 +119,9 @@ function Posts() {
 
   return (
     <>
+      <div className="absolute w-full flex justify-center top-16 invisible refresh-arrow">
+        <ArrowDown />
+      </div>
       <div
         ref={postContainerRef}
         className="grow max-h-[calc(100vh_-_92px)] overflow-auto"
