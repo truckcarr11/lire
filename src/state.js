@@ -13,3 +13,6 @@ export const subscribedSubredditsAtom = atomWithStorage(
   []
 );
 export const scrollAtom = atomWithStorage("scrollPos", 0);
+export const settingsAtom = atomWithStorage("settings", {
+  showVotingArrows: false,
+});

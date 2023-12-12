@@ -11,10 +11,11 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { useIsVisible } from "../utils/hooks";
 import { useRef, useState } from "react";
 import { useAtom } from "jotai";
-import { postAtom } from "../state";
+import { postAtom, settingsAtom } from "../state";
 dayjs.extend(relativeTime);
 
 function PostItem(props) {
+  const [settings] = useAtom(settingsAtom);
   const [currentPost, setCurrentPost] = useAtom(postAtom);
   const [causedRefresh, setCausedRefresh] = useState(false);
   const ref = useRef();
@@ -36,10 +37,12 @@ function PostItem(props) {
       onClick={onClick}
     >
       <div className="flex gap-4">
-        <div className="flex flex-col">
-          <ArrowUp color="#4f5256" />
-          <ArrowDown color="#4f5256" />
-        </div>
+        {settings.showVotingArrows && (
+          <div className="flex flex-col">
+            <ArrowUp color="#4f5256" />
+            <ArrowDown color="#4f5256" />
+          </div>
+        )}
         <div>
           <div className="text-[#e7eaef] flex gap-2 items-center">
             {props.post.stickied && (
