@@ -6,6 +6,7 @@ export const appAtom = atomWithStorage("appData", {
   subreddit: "All",
   sort: "hot",
   tab: TABS.POST,
+  searchInSubreddit: "",
 });
 export const postAtom = atomWithStorage("currentPost", null);
 export const subscribedSubredditsAtom = atomWithStorage(

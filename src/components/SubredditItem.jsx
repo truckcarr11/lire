@@ -6,8 +6,8 @@ function SubredditItem(props) {
   const [appData, setAppData] = useAtom(appAtom);
 
   function onClick() {
-    props.onClick();
     setAppData({ ...appData, subreddit: props.subredditName, tab: TABS.POST });
+    props.onClick();
   }
 
   return (

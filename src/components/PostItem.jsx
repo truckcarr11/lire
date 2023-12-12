@@ -11,11 +11,13 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { useIsVisible } from "../utils/hooks";
 import { useRef, useState } from "react";
 import { useAtom } from "jotai";
-import { postAtom, settingsAtom } from "../state";
+import { appAtom, postAtom, settingsAtom } from "../state";
+import { TABS } from "../utils/constants";
 dayjs.extend(relativeTime);
 
 function PostItem(props) {
   const [settings] = useAtom(settingsAtom);
+  const [appData, setAppData] = useAtom(appAtom);
   const [currentPost, setCurrentPost] = useAtom(postAtom);
   const [causedRefresh, setCausedRefresh] = useState(false);
   const ref = useRef();
@@ -27,7 +29,10 @@ function PostItem(props) {
   }
 
   function onClick() {
-    if (currentPost?.name !== props.post.name) setCurrentPost(props.post);
+    if (currentPost?.name !== props.post.name) {
+      setCurrentPost(props.post);
+    }
+    setAppData({ ...appData, tab: TABS.POST });
   }
 
   return (
@@ -80,7 +85,9 @@ function PostItem(props) {
       >
         {props.post.thumbnail.includes("thumbs") ? (
           <img
-            className="w-14 h-14 rounded"
+            className={`w-14 h-14 rounded ${
+              props.post.over_18 ? "blur-sm" : ""
+            }`}
             src={props.post.thumbnail}
             alt="alt"
           />
