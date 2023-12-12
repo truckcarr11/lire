@@ -14,19 +14,49 @@ import { appAtom, postAtom, subscribedSubredditsAtom } from "./state";
 import SortMenu from "./components/SortMenu";
 import Posts from "./pages/Posts";
 import Post from "./pages/Post";
-import { TABS } from "./utils/constants";
+import { MIN_SWIPE_DISTANCE, TABS } from "./utils/constants";
 import SearchPage from "./pages/Search";
 import MoreMenu from "./components/MoreMenu";
 import Settings from "./pages/SettingsPage";
+import { useState } from "react";
 
 function App() {
   const [appData, setAppData] = useAtom(appAtom);
   const [opened, { open, close }] = useDisclosure(false);
   const [currentPost, setCurrentPost] = useAtom(postAtom);
   const [subscribedSubreddits] = useAtom(subscribedSubredditsAtom);
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+
+  console.log(currentPost);
+
+  const onTouchStart = (e) => {
+    setTouchEnd(null); // otherwise the swipe is fired even with usual touch events
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX);
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > MIN_SWIPE_DISTANCE;
+    const isRightSwipe = distance < -MIN_SWIPE_DISTANCE;
+    if (isLeftSwipe || isRightSwipe)
+      if (opened && isLeftSwipe) {
+        close();
+      }
+    if (currentPost && isRightSwipe) {
+      setCurrentPost(null);
+    }
+  };
 
   return (
-    <>
+    <div
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+    >
       <Drawer opened={opened} onClose={close} title="Subreddits">
         {["all", "frontpage"].concat(subscribedSubreddits).map((subreddit) => (
           <SubredditItem
@@ -102,7 +132,7 @@ function App() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
