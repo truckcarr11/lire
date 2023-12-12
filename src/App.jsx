@@ -49,6 +49,14 @@ function App() {
     }
   };
 
+  function handlePostTabClick() {
+    if (currentPost && appData.tab === TABS.POST) {
+      setCurrentPost(null);
+    } else {
+      setAppData({ ...appData, tab: TABS.POST });
+    }
+  }
+
   return (
     <div
       onTouchStart={onTouchStart}
@@ -106,7 +114,7 @@ function App() {
         <div className="border-t-[1px] border-[#24282f] w-full flex justify-around h-12 items-center shrink-0 grow-0">
           <div
             className="cursor-pointer w-12 h-12 flex items-center justify-center"
-            onClick={() => setAppData({ ...appData, tab: TABS.POST })}
+            onClick={handlePostTabClick}
           >
             <Newspaper
               color={appData.tab === TABS.POST ? "#1f83fc" : "#727578"}
