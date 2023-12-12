@@ -48,7 +48,11 @@ function Search() {
             <Pill className="">{appData.searchInSubreddit}</Pill>
           ) : null
         }
-        leftSectionWidth={appData.searchInSubreddit.length * 6 + 20}
+        leftSectionWidth={
+          appData.searchInSubreddit
+            ? appData.searchInSubreddit.length * 6 + 20
+            : 0
+        }
         rightSection={
           appData.searchInSubreddit ? (
             <CloseButton onClick={clearSearchInSubreddit} />
