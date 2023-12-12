@@ -17,3 +17,7 @@ export const scrollAtom = atomWithStorage("scrollPos", 0);
 export const settingsAtom = atomWithStorage("settings", {
   showVotingArrows: false,
 });
+export const seenPostsAtom = atomWithStorage("seenPosts", {
+  refreshTime: new Date(),
+  postNames: [],
+});

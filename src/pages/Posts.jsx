@@ -1,14 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import { useAtom } from "jotai";
 import PostItem from "../components/PostItem";
-import { appAtom, scrollAtom, subscribedSubredditsAtom } from "../state";
+import {
+  appAtom,
+  scrollAtom,
+  seenPostsAtom,
+  subscribedSubredditsAtom,
+} from "../state";
 import { useQuery } from "@tanstack/react-query";
 import { Loader } from "@mantine/core";
 import { usePullToRefresh } from "../utils/hooks";
+import { shouldRefreshSeenPosts } from "../utils/helpers";
 
 function Posts() {
   const postContainerRef = useRef();
   const [appData] = useAtom(appAtom);
+  const [seenPostsData, setSeenPostsData] = useAtom(seenPostsAtom);
   const [subscribedSubreddits] = useAtom(subscribedSubredditsAtom);
   const [scrollPosition, setScrollPosition] = useAtom(scrollAtom);
   const [posts, setPosts] = useState([]);
@@ -40,6 +47,11 @@ function Posts() {
       appData.sort === "new" ? sortedPosts.at(-3).name : newPosts.at(-3).name
     );
     return appData.sort === "new" ? sortedPosts : newPosts;
+  }
+
+  //Handle refreshing seen posts
+  if (shouldRefreshSeenPosts(new Date(seenPostsData.refreshTime))) {
+    setSeenPostsData({ refreshTime: new Date(), postNames: [] });
   }
 
   useEffect(() => {

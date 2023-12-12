@@ -11,7 +11,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { useIsVisible } from "../utils/hooks";
 import { useRef, useState } from "react";
 import { useAtom } from "jotai";
-import { appAtom, postAtom, settingsAtom } from "../state";
+import { appAtom, postAtom, seenPostsAtom, settingsAtom } from "../state";
 import { TABS } from "../utils/constants";
 dayjs.extend(relativeTime);
 
@@ -19,6 +19,7 @@ function PostItem(props) {
   const [settings] = useAtom(settingsAtom);
   const [appData, setAppData] = useAtom(appAtom);
   const [currentPost, setCurrentPost] = useAtom(postAtom);
+  const [seenPostsData, setSeenPostsData] = useAtom(seenPostsAtom);
   const [causedRefresh, setCausedRefresh] = useState(false);
   const ref = useRef();
   const isVisible = useIsVisible(ref);
@@ -30,6 +31,9 @@ function PostItem(props) {
 
   function onClick() {
     if (currentPost?.name !== props.post.name) {
+      let newSeenPostsNames = seenPostsData.postNames;
+      newSeenPostsNames.push(props.post.name);
+      setSeenPostsData({ ...seenPostsData, postNames: newSeenPostsNames });
       setCurrentPost(props.post);
     }
     setAppData({ ...appData, tab: TABS.POST });
@@ -49,7 +53,13 @@ function PostItem(props) {
           </div>
         )}
         <div>
-          <div className="text-[#e7eaef] flex gap-2 items-center">
+          <div
+            className={`text-[${
+              seenPostsData.postNames.includes(props.post.name)
+                ? "#171718"
+                : "#e7eaef"
+            }] flex gap-2 items-center`}
+          >
             {props.post.stickied && (
               <Pin size={20} color="green" className="shrink-0" />
             )}
