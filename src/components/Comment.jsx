@@ -23,7 +23,18 @@ function Comment(props) {
   return (
     <div className={`${borderColor ? "border-l-2 pl-4 " + borderColor : ""}`}>
       <div className="flex justify-between">
-        <div className="text-[#1f83fc]/80">{props.comment.author}</div>
+        <div className="text-[#1f83fc]/80 flex items-center">
+          {props.comment.author}
+          {props.comment.author_flair_richtext &&
+            props.comment.author_flair_richtext.length > 0 && (
+              <span className="rounded-lg bg-neutral-700 p-1 text-sm ml-2 w-6 h-4 flex items-center">
+                <img
+                  src={props.comment.author_flair_richtext[0].u}
+                  className="h-4"
+                />
+              </span>
+            )}
+        </div>
         <div className="flex items-center">
           <ArrowUp size={16} />
           {props.comment.ups}
