@@ -27,26 +27,30 @@ function Posts() {
   const _ = usePullToRefresh(postContainerRef, query.refetch);
 
   async function getPosts() {
-    let subredditSearch =
-      appData.subreddit === "frontpage"
-        ? subscribedSubreddits
-            .filter(
-              (subreddit) => subreddit !== "all" && subreddit !== "frontpage"
-            )
-            .join("+")
-        : appData.subreddit;
-    const response = await fetch(
-      `https://www.reddit.com/r/${subredditSearch}/${appData.sort}/.json`
-    );
-    const data = await response.json();
-    let newPosts = data.data.children.map((child) => child.data);
-    let sortedPosts = [...newPosts].sort(
-      (a, b) => new Date(b.created * 1000) - new Date(a.created * 1000)
-    );
-    setRefreshTrigger(
-      appData.sort === "new" ? sortedPosts.at(-3).name : newPosts.at(-3).name
-    );
-    return appData.sort === "new" ? sortedPosts : newPosts;
+    try {
+      let subredditSearch =
+        appData.subreddit === "frontpage"
+          ? subscribedSubreddits
+              .filter(
+                (subreddit) => subreddit !== "all" && subreddit !== "frontpage"
+              )
+              .join("+")
+          : appData.subreddit;
+      const response = await fetch(
+        `https://www.reddit.com/r/${subredditSearch}/${appData.sort}/.json`
+      );
+      const data = await response.json();
+      let newPosts = data.data.children.map((child) => child.data);
+      let sortedPosts = [...newPosts].sort(
+        (a, b) => new Date(b.created * 1000) - new Date(a.created * 1000)
+      );
+      setRefreshTrigger(
+        appData.sort === "new" ? sortedPosts.at(-3).name : newPosts.at(-3).name
+      );
+      return appData.sort === "new" ? sortedPosts : newPosts;
+    } catch (error) {
+      return [];
+    }
   }
 
   //Handle refreshing seen posts
