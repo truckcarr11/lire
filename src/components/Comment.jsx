@@ -22,7 +22,8 @@ function Comment(props) {
   const borderColor = comment_color_rainbow[props.depth ? props.depth : 0];
 
   return (
-    <div className={`${borderColor ? "border-l-2 pl-4 " + borderColor : ""}`}>
+    <>    {
+      props.comment.body && (<div className={`${borderColor ? "border-l-2 pl-4 " + borderColor : ""}`}>
       <div className="flex justify-between">
         <div className="text-[#1f83fc]/80 flex items-center gap-1">
           <div className="flex items-center">
@@ -51,7 +52,7 @@ function Comment(props) {
         children={decodeEntities(props.comment.body)}
         className="break-words"
       />
-      {props.comment.replies?.data?.children?.length !== undefined && (
+        {props.comment.replies?.data?.children?.length !== undefined && props.comment.replies?.data?.children[0].data.body &&(
         <>
           {repliesExpanded ? (
             <div className="grow flex flex-col">
@@ -76,7 +77,9 @@ function Comment(props) {
           )}
         </>
       )}
-    </div>
+      </div>)
+    }</>
+
   );
 }
 
